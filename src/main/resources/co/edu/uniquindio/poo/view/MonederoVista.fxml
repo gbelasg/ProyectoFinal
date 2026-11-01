@@ -1,6 +1,358 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.ComboBox?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.Tab?>
+<?import javafx.scene.control.TabPane?>
+<?import javafx.scene.control.TableColumn?>
+<?import javafx.scene.control.TableView?>
+<?import javafx.scene.control.TextArea?>
+<?import javafx.scene.control.TextField?>
+<?import javafx.scene.image.Image?>
+<?import javafx.scene.image.ImageView?>
 <?import javafx.scene.layout.BorderPane?>
+<?import javafx.scene.text.Font?>
+<?import javafx.scene.layout.GridPane?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.VBox?>
 
+<BorderPane prefHeight="680.0" prefWidth="940.0" style="-fx-background-color: #F6F8F7; -fx-font-family: 'Segoe UI'; -fx-font-size: 13px; -fx-accent: #12716A; -fx-focus-color: #12716A;" xmlns="http://javafx.com/javafx/17" xmlns:fx="http://javafx.com/fxml/1" fx:controller="co.edu.uniquindio.poo.viewController.MonederoViewController">
 
-<BorderPane prefHeight="680.0" prefWidth="940.0" xmlns="http://javafx.com/javafx/17" xmlns:fx="http://javafx.com/fxml/1" fx:controller="co.edu.uniquindio.poo.viewController.MonederoViewController" />
+    <!-- PARTE SUPERIOR: cliente activo -->
+    <top>
+        <VBox spacing="10.0" style="-fx-background-color: #0D3F3C; -fx-border-color: transparent transparent #F4BE4A transparent; -fx-border-width: 0 0 3 0;">
+            <padding>
+                <Insets bottom="12.0" left="15.0" right="15.0" top="12.0" />
+            </padding>
+            <children>
+                <ImageView fitHeight="44.0" pickOnBounds="true" preserveRatio="true">
+                    <image>
+                        <Image url="@imagenes/logo.png" />
+                    </image>
+                </ImageView>
+                <HBox alignment="CENTER_LEFT" spacing="15.0">
+                    <children>
+                        <Label textFill="#CFE3DF" text="Cliente activo:" />
+                        <ComboBox fx:id="cmbClienteActivo" onAction="#seleccionarCliente" prefWidth="250.0" promptText="Seleccione un cliente" />
+                        <Label textFill="#CFE3DF" text="Saldo total:" />
+                        <Label fx:id="lblSaldoTotal" textFill="#F4BE4A" text="0"><font><Font name="Segoe UI Bold" size="15.0" /></font></Label>
+                        <Label textFill="#CFE3DF" text="Puntos:" />
+                        <Label fx:id="lblPuntos" textFill="#F4BE4A" text="0"><font><Font name="Segoe UI Bold" size="15.0" /></font></Label>
+                        <Label textFill="#CFE3DF" text="Rango:" />
+                        <Label fx:id="lblRango" textFill="#F4BE4A" text="-"><font><Font name="Segoe UI Bold" size="15.0" /></font></Label>
+                    </children>
+                </HBox>
+            </children>
+        </VBox>
+    </top>
+
+    <!-- CENTRO: pestañas -->
+    <center>
+        <TabPane tabClosingPolicy="UNAVAILABLE" BorderPane.alignment="CENTER">
+            <tabs>
+
+                <!-- 1. Clientes -->
+                <Tab text="Clientes">
+                    <content>
+                        <VBox spacing="12.0">
+                            <padding>
+                                <Insets bottom="15.0" left="15.0" right="15.0" top="15.0" />
+                            </padding>
+                            <children>
+                                <HBox alignment="CENTER_LEFT" spacing="10.0">
+                                    <children>
+                                        <Label text="Buscar por documento:" />
+                                        <TextField fx:id="txtBuscarDocumento" prefWidth="160.0" />
+                                        <Button style="-fx-background-color: #12716A; -fx-background-radius: 6;" textFill="WHITE" mnemonicParsing="false" onAction="#buscarCliente" text="Buscar" />
+                                    </children>
+                                </HBox>
+                                <Label textFill="#12716A" text="Datos del cliente (seleccione una fila de la tabla para actualizar o eliminar)"><font><Font name="Segoe UI Bold" size="14.0" /></font></Label>
+                                <GridPane hgap="10.0" vgap="8.0">
+                                    <children>
+                                        <Label text="Documento:" GridPane.columnIndex="0" GridPane.rowIndex="0" />
+                                        <TextField fx:id="txtDocumento" prefWidth="200.0" GridPane.columnIndex="1" GridPane.rowIndex="0" />
+                                        <Label text="Nombre:" GridPane.columnIndex="2" GridPane.rowIndex="0" />
+                                        <TextField fx:id="txtNombre" prefWidth="250.0" GridPane.columnIndex="3" GridPane.rowIndex="0" />
+                                        <Label text="Correo:" GridPane.columnIndex="0" GridPane.rowIndex="1" />
+                                        <TextField fx:id="txtCorreo" prefWidth="200.0" GridPane.columnIndex="1" GridPane.rowIndex="1" />
+                                        <Label text="Teléfono:" GridPane.columnIndex="2" GridPane.rowIndex="1" />
+                                        <TextField fx:id="txtTelefono" prefWidth="250.0" GridPane.columnIndex="3" GridPane.rowIndex="1" />
+                                    </children>
+                                </GridPane>
+                                <HBox spacing="10.0">
+                                    <children>
+                                        <Button style="-fx-background-color: #12716A; -fx-background-radius: 6;" textFill="WHITE" mnemonicParsing="false" onAction="#registrarCliente" text="Registrar cliente" />
+                                        <Button style="-fx-background-color: #12716A; -fx-background-radius: 6;" textFill="WHITE" mnemonicParsing="false" onAction="#actualizarCliente" text="Actualizar cliente" />
+                                        <Button mnemonicParsing="false" onAction="#eliminarCliente" style="-fx-background-color: #B3403A; -fx-background-radius: 6;" textFill="WHITE" text="Eliminar cliente" />
+                                        <Button mnemonicParsing="false" onAction="#limpiarFormularioCliente" style="-fx-background-color: transparent; -fx-border-color: #12716A; -fx-border-radius: 6;" textFill="#12716A" text="Limpiar campos" />
+                                    </children>
+                                </HBox>
+                                <TableView fx:id="tblClientes" prefHeight="270.0">
+                                    <columns>
+                                        <TableColumn fx:id="colClienteDocumento" prefWidth="130.0" text="Documento" />
+                                        <TableColumn fx:id="colClienteNombre" prefWidth="220.0" text="Nombre" />
+                                        <TableColumn fx:id="colClienteCorreo" prefWidth="210.0" text="Correo" />
+                                        <TableColumn fx:id="colClienteTelefono" prefWidth="130.0" text="Teléfono" />
+                                        <TableColumn fx:id="colClientePuntos" prefWidth="80.0" text="Puntos" />
+                                        <TableColumn fx:id="colClienteRango" prefWidth="100.0" text="Rango" />
+                                    </columns>
+                                </TableView>
+                            </children>
+                        </VBox>
+                    </content>
+                </Tab>
+
+                <!-- 2. Monederos -->
+                <Tab text="Monederos">
+                    <content>
+                        <VBox spacing="12.0">
+                            <padding>
+                                <Insets bottom="15.0" left="15.0" right="15.0" top="15.0" />
+                            </padding>
+                            <children>
+                                <Label textFill="#12716A" text="Crear monedero para el cliente activo (ej. Ahorros, Gastos diarios)"><font><Font name="Segoe UI Bold" size="14.0" /></font></Label>
+                                <HBox alignment="CENTER_LEFT" spacing="10.0">
+                                    <children>
+                                        <Label text="Nombre:" />
+                                        <TextField fx:id="txtNombreMonedero" prefWidth="200.0" />
+                                        <Label text="Saldo mínimo para alerta:" />
+                                        <TextField fx:id="txtSaldoMinimo" prefWidth="120.0" />
+                                        <Button style="-fx-background-color: #12716A; -fx-background-radius: 6;" textFill="WHITE" mnemonicParsing="false" onAction="#crearMonedero" text="Crear monedero" />
+                                    </children>
+                                </HBox>
+                                <HBox spacing="10.0">
+                                    <children>
+                                        <Button style="-fx-background-color: #12716A; -fx-background-radius: 6;" textFill="WHITE" mnemonicParsing="false" onAction="#actualizarMonedero" text="Actualizar monedero seleccionado" />
+                                        <Button mnemonicParsing="false" onAction="#eliminarMonedero" style="-fx-background-color: #B3403A; -fx-background-radius: 6;" textFill="WHITE" text="Eliminar monedero seleccionado" />
+                                    </children>
+                                </HBox>
+                                <TableView fx:id="tblMonederos" prefHeight="360.0">
+                                    <columns>
+                                        <TableColumn fx:id="colMonederoCodigo" prefWidth="150.0" text="Código" />
+                                        <TableColumn fx:id="colMonederoNombre" prefWidth="250.0" text="Nombre" />
+                                        <TableColumn fx:id="colMonederoSaldo" prefWidth="180.0" text="Saldo" />
+                                        <TableColumn fx:id="colMonederoMinimo" prefWidth="180.0" text="Saldo mínimo alerta" />
+                                    </columns>
+                                </TableView>
+                            </children>
+                        </VBox>
+                    </content>
+                </Tab>
+
+                <!-- 3. Operaciones -->
+                <Tab text="Operaciones">
+                    <content>
+                        <VBox spacing="14.0">
+                            <padding>
+                                <Insets bottom="15.0" left="15.0" right="15.0" top="15.0" />
+                            </padding>
+                            <children>
+                                <Label textFill="#12716A" text="Depósito"><font><Font name="Segoe UI Bold" size="14.0" /></font></Label>
+                                <HBox alignment="CENTER_LEFT" spacing="10.0">
+                                    <children>
+                                        <Label text="Monedero:" />
+                                        <ComboBox fx:id="cmbMonederoDeposito" prefWidth="200.0" promptText="Seleccione" />
+                                        <Label text="Monto:" />
+                                        <TextField fx:id="txtMontoDeposito" prefWidth="120.0" />
+                                        <Button style="-fx-background-color: #12716A; -fx-background-radius: 6;" textFill="WHITE" mnemonicParsing="false" onAction="#depositar" text="Depositar" />
+                                    </children>
+                                </HBox>
+                                <Label textFill="#12716A" text="Retiro"><font><Font name="Segoe UI Bold" size="14.0" /></font></Label>
+                                <HBox alignment="CENTER_LEFT" spacing="10.0">
+                                    <children>
+                                        <Label text="Monedero:" />
+                                        <ComboBox fx:id="cmbMonederoRetiro" prefWidth="200.0" promptText="Seleccione" />
+                                        <Label text="Monto:" />
+                                        <TextField fx:id="txtMontoRetiro" prefWidth="120.0" />
+                                        <Button style="-fx-background-color: #12716A; -fx-background-radius: 6;" textFill="WHITE" mnemonicParsing="false" onAction="#retirar" text="Retirar" />
+                                    </children>
+                                </HBox>
+                                <Label textFill="#12716A" text="Transferencia"><font><Font name="Segoe UI Bold" size="14.0" /></font></Label>
+                                <GridPane hgap="10.0" vgap="8.0">
+                                    <children>
+                                        <Label text="Monedero origen:" GridPane.columnIndex="0" GridPane.rowIndex="0" />
+                                        <ComboBox fx:id="cmbMonederoOrigen" prefWidth="200.0" promptText="Seleccione" GridPane.columnIndex="1" GridPane.rowIndex="0" />
+                                        <Label text="Cliente destino:" GridPane.columnIndex="2" GridPane.rowIndex="0" />
+                                        <ComboBox fx:id="cmbClienteDestino" onAction="#seleccionarClienteDestino" prefWidth="220.0" promptText="Seleccione" GridPane.columnIndex="3" GridPane.rowIndex="0" />
+                                        <Label text="Monto:" GridPane.columnIndex="0" GridPane.rowIndex="1" />
+                                        <TextField fx:id="txtMontoTransferencia" prefWidth="120.0" GridPane.columnIndex="1" GridPane.rowIndex="1" />
+                                        <Label text="Monedero destino:" GridPane.columnIndex="2" GridPane.rowIndex="1" />
+                                        <ComboBox fx:id="cmbMonederoDestino" prefWidth="220.0" promptText="Seleccione" GridPane.columnIndex="3" GridPane.rowIndex="1" />
+                                    </children>
+                                </GridPane>
+                                <Button style="-fx-background-color: #12716A; -fx-background-radius: 6;" textFill="WHITE" mnemonicParsing="false" onAction="#transferir" text="Transferir" />
+                                <Label textFill="#12716A" text="Revertir una transacción"><font><Font name="Segoe UI Bold" size="14.0" /></font></Label>
+                                <HBox alignment="CENTER_LEFT" spacing="10.0">
+                                    <children>
+                                        <Label text="Código de la transacción:" />
+                                        <TextField fx:id="txtCodigoRevertir" prefWidth="150.0" />
+                                        <Button style="-fx-background-color: #12716A; -fx-background-radius: 6;" textFill="WHITE" mnemonicParsing="false" onAction="#revertirTransaccion" text="Revertir" />
+                                    </children>
+                                </HBox>
+                                <Label fx:id="lblMensajeOperacion" text="" />
+                            </children>
+                        </VBox>
+                    </content>
+                </Tab>
+
+                <!-- 4. Historial -->
+                <Tab text="Historial">
+                    <content>
+                        <VBox spacing="12.0">
+                            <padding>
+                                <Insets bottom="15.0" left="15.0" right="15.0" top="15.0" />
+                            </padding>
+                            <children>
+                                <HBox alignment="CENTER_LEFT" spacing="10.0">
+                                    <children>
+                                        <Label text="Filtrar por tipo:" />
+                                        <ComboBox fx:id="cmbFiltroTipo" prefWidth="160.0" promptText="Todos" />
+                                        <Button style="-fx-background-color: #12716A; -fx-background-radius: 6;" textFill="WHITE" mnemonicParsing="false" onAction="#actualizarHistorial" text="Consultar historial" />
+                                    </children>
+                                </HBox>
+                                <TableView fx:id="tblHistorial" prefHeight="440.0">
+                                    <columns>
+                                        <TableColumn fx:id="colHistCodigo" prefWidth="110.0" text="Código" />
+                                        <TableColumn fx:id="colHistFecha" prefWidth="110.0" text="Fecha" />
+                                        <TableColumn fx:id="colHistTipo" prefWidth="120.0" text="Tipo" />
+                                        <TableColumn fx:id="colHistMonto" prefWidth="120.0" text="Monto" />
+                                        <TableColumn fx:id="colHistComision" prefWidth="110.0" text="Comisión" />
+                                        <TableColumn fx:id="colHistPuntos" prefWidth="90.0" text="Puntos" />
+                                        <TableColumn fx:id="colHistAtipica" prefWidth="100.0" text="Atípica" />
+                                        <TableColumn fx:id="colHistRevertida" prefWidth="100.0" text="Revertida" />
+                                    </columns>
+                                </TableView>
+                            </children>
+                        </VBox>
+                    </content>
+                </Tab>
+
+                <!-- 5. Puntos y beneficios -->
+                <Tab text="Puntos y beneficios">
+                    <content>
+                        <VBox spacing="12.0">
+                            <padding>
+                                <Insets bottom="15.0" left="15.0" right="15.0" top="15.0" />
+                            </padding>
+                            <children>
+                                <Label textFill="#12716A" text="Canjear puntos"><font><Font name="Segoe UI Bold" size="14.0" /></font></Label>
+                                <HBox alignment="CENTER_LEFT" spacing="10.0">
+                                    <children>
+                                        <Label text="Beneficio:" />
+                                        <ComboBox fx:id="cmbBeneficio" prefWidth="380.0" promptText="Seleccione un beneficio" />
+                                        <Button style="-fx-background-color: #12716A; -fx-background-radius: 6;" textFill="WHITE" mnemonicParsing="false" onAction="#canjearBeneficio" text="Canjear" />
+                                    </children>
+                                </HBox>
+                                <Label textFill="#12716A" text="Historial de puntos"><font><Font name="Segoe UI Bold" size="14.0" /></font></Label>
+                                <TableView fx:id="tblPuntos" prefHeight="380.0">
+                                    <columns>
+                                        <TableColumn fx:id="colPuntosFecha" prefWidth="140.0" text="Fecha" />
+                                        <TableColumn fx:id="colPuntosCantidad" prefWidth="120.0" text="Puntos" />
+                                        <TableColumn fx:id="colPuntosDescripcion" prefWidth="500.0" text="Descripción" />
+                                    </columns>
+                                </TableView>
+                            </children>
+                        </VBox>
+                    </content>
+                </Tab>
+
+                <!-- 6. Transacciones programadas -->
+                <Tab text="Programadas">
+                    <content>
+                        <VBox spacing="12.0">
+                            <padding>
+                                <Insets bottom="15.0" left="15.0" right="15.0" top="15.0" />
+                            </padding>
+                            <children>
+                                <Label textFill="#12716A" text="Programar transacción"><font><Font name="Segoe UI Bold" size="14.0" /></font></Label>
+                                <GridPane hgap="10.0" vgap="8.0">
+                                    <children>
+                                        <Label text="Tipo:" GridPane.columnIndex="0" GridPane.rowIndex="0" />
+                                        <ComboBox fx:id="cmbTipoProgramada" prefWidth="180.0" promptText="Seleccione" GridPane.columnIndex="1" GridPane.rowIndex="0" />
+                                        <Label text="Monedero origen:" GridPane.columnIndex="2" GridPane.rowIndex="0" />
+                                        <ComboBox fx:id="cmbMonederoProgramadaOrigen" prefWidth="200.0" promptText="Seleccione" GridPane.columnIndex="3" GridPane.rowIndex="0" />
+                                        <Label text="Monto:" GridPane.columnIndex="0" GridPane.rowIndex="1" />
+                                        <TextField fx:id="txtMontoProgramada" prefWidth="120.0" GridPane.columnIndex="1" GridPane.rowIndex="1" />
+                                        <Label text="Cliente destino:" GridPane.columnIndex="2" GridPane.rowIndex="1" />
+                                        <ComboBox fx:id="cmbClienteProgramadaDestino" onAction="#seleccionarClienteProgramadaDestino" prefWidth="200.0" promptText="Seleccione" GridPane.columnIndex="3" GridPane.rowIndex="1" />
+                                        <Label text="Fecha (aaaa-mm-dd):" GridPane.columnIndex="0" GridPane.rowIndex="2" />
+                                        <TextField fx:id="txtFechaProgramada" prefWidth="120.0" promptText="2026-10-15" GridPane.columnIndex="1" GridPane.rowIndex="2" />
+                                        <Label text="Monedero destino:" GridPane.columnIndex="2" GridPane.rowIndex="2" />
+                                        <ComboBox fx:id="cmbMonederoProgramadaDestino" prefWidth="200.0" promptText="Seleccione" GridPane.columnIndex="3" GridPane.rowIndex="2" />
+                                        <Label text="Repetir cada (meses):" GridPane.columnIndex="0" GridPane.rowIndex="3" />
+                                        <TextField fx:id="txtFrecuenciaMeses" prefWidth="80.0" GridPane.columnIndex="1" GridPane.rowIndex="3" />
+                                        <Label text="(Depósito: el cliente destino es usted mismo)" GridPane.columnIndex="2" GridPane.columnSpan="2" GridPane.rowIndex="3" />
+                                    </children>
+                                </GridPane>
+                                <HBox alignment="CENTER_LEFT" spacing="10.0">
+                                    <children>
+                                        <Button style="-fx-background-color: #12716A; -fx-background-radius: 6;" textFill="WHITE" mnemonicParsing="false" onAction="#programarTransaccion" text="Programar" />
+                                        <Button style="-fx-background-color: #12716A; -fx-background-radius: 6;" textFill="WHITE" mnemonicParsing="false" onAction="#actualizarProgramada" text="Actualizar seleccionada" />
+                                        <Button mnemonicParsing="false" onAction="#eliminarProgramada" style="-fx-background-color: #B3403A; -fx-background-radius: 6;" textFill="WHITE" text="Eliminar seleccionada" />
+                                    </children>
+                                </HBox>
+                                <HBox alignment="CENTER_LEFT" spacing="10.0">
+                                    <children>
+                                        <Label text="Fecha de hoy:" />
+                                        <TextField fx:id="txtFechaHoy" prefWidth="120.0" promptText="2026-10-15" />
+                                        <Button style="-fx-background-color: #12716A; -fx-background-radius: 6;" textFill="WHITE" mnemonicParsing="false" onAction="#procesarProgramadas" text="Ordenar y procesar programadas" />
+                                    </children>
+                                </HBox>
+                                <TableView fx:id="tblProgramadas" prefHeight="230.0">
+                                    <columns>
+                                        <TableColumn fx:id="colProgCodigo" prefWidth="100.0" text="Código" />
+                                        <TableColumn fx:id="colProgTipo" prefWidth="130.0" text="Tipo" />
+                                        <TableColumn fx:id="colProgMonto" prefWidth="110.0" text="Monto" />
+                                        <TableColumn fx:id="colProgFecha" prefWidth="130.0" text="Próxima fecha" />
+                                        <TableColumn fx:id="colProgFrecuencia" prefWidth="130.0" text="Cada (meses)" />
+                                        <TableColumn fx:id="colProgActiva" prefWidth="100.0" text="Activa" />
+                                    </columns>
+                                </TableView>
+                            </children>
+                        </VBox>
+                    </content>
+                </Tab>
+
+                <!-- 7. Análisis -->
+                <Tab text="Análisis">
+                    <content>
+                        <VBox spacing="12.0">
+                            <padding>
+                                <Insets bottom="15.0" left="15.0" right="15.0" top="15.0" />
+                            </padding>
+                            <children>
+                                <HBox alignment="CENTER_LEFT" spacing="10.0">
+                                    <children>
+                                        <Button style="-fx-background-color: #12716A; -fx-background-radius: 6;" textFill="WHITE" mnemonicParsing="false" onAction="#generarReporteGastos" text="Reporte de patrones de gasto" />
+                                        <Button style="-fx-background-color: #12716A; -fx-background-radius: 6;" textFill="WHITE" mnemonicParsing="false" onAction="#detectarAtipicas" text="Detectar transacciones atípicas" />
+                                        <Button style="-fx-background-color: #12716A; -fx-background-radius: 6;" textFill="WHITE" mnemonicParsing="false" onAction="#generarReporteRangos" text="Clientes por rango" />
+                                    </children>
+                                </HBox>
+                                <TextArea fx:id="txtReporte" editable="false" prefHeight="440.0" wrapText="true" />
+                            </children>
+                        </VBox>
+                    </content>
+                </Tab>
+
+                <!-- 8. Notificaciones -->
+                <Tab text="Notificaciones">
+                    <content>
+                        <VBox spacing="12.0">
+                            <padding>
+                                <Insets bottom="15.0" left="15.0" right="15.0" top="15.0" />
+                            </padding>
+                            <children>
+                                <Label textFill="#12716A" text="Alertas de saldo bajo, recordatorios de programadas y transacciones atípicas (WhatsApp, correo, SMS)"><font><Font name="Segoe UI Bold" size="14.0" /></font></Label>
+                                <TextArea fx:id="txtNotificaciones" editable="false" prefHeight="420.0" wrapText="true" />
+                                <Button mnemonicParsing="false" onAction="#limpiarNotificaciones" style="-fx-background-color: transparent; -fx-border-color: #12716A; -fx-border-radius: 6;" textFill="#12716A" text="Limpiar notificaciones" />
+                            </children>
+                        </VBox>
+                    </content>
+                </Tab>
+
+            </tabs>
+        </TabPane>
+    </center>
+</BorderPane>
