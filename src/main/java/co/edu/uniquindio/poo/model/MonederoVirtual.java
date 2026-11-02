@@ -98,22 +98,25 @@ public class MonederoVirtual {
     public void setListaProgramadas(ArrayList<TransaccionProgramada> listaProgramadas) {
         this.listaProgramadas = listaProgramadas;
     }
+
     public String registrarCliente(Cliente cliente) {
         Optional<Cliente> clienteEncontrado = buscarCliente(cliente.getDocumento());
 
-        if (clienteEncontrado.isPresent()) {
+        if (clienteEncontrado.isEmpty()) {
             listaClientes.add(cliente);
             return "El cliente fue registrado exitosamente.";
         } else {
             return "No se puede registrar, ya existe un cliente con esa información registrado anteriormente.";
         }
     }
+
     public Optional<Cliente> buscarCliente(String documento) {
         return listaClientes.stream()
                 .filter(c -> documento.equals(c.getDocumento()))
                 .findFirst();
     }
-    public String actualizarCliente(String documento, String nombre, String correo, String telefono) {
+
+    public String actualizarCliente(String documento, String nombre, String correo, String telefono) throws ClienteNoEncontradoException {
         Optional<Cliente> clienteEncontrado = buscarCliente(documento);
 
         if (clienteEncontrado.isPresent()) {
@@ -123,15 +126,15 @@ public class MonederoVirtual {
             cliente.setTelefono(telefono);
             return "Cliente actualizado exitosamente.";
         } else {
-            return "No se encontró ningún cliente con el documento especificado.";
+            throw new ClienteNoEncontradoException("No se encontró ningún cliente con el documento: " + documento);
         }
     }
 
-    public String eliminarCliente(String documento) {
+    public String eliminarCliente(String documento) throws ClienteNoEncontradoException {
         Optional<Cliente> clienteEncontrado = buscarCliente(documento);
 
         if (clienteEncontrado.isEmpty()) {
-            return "El cliente a eliminar no existe en el sistema.";
+            throw new ClienteNoEncontradoException("El cliente a eliminar no existe en el sistema.");
         }
 
         Cliente cliente = clienteEncontrado.get();
@@ -148,12 +151,16 @@ public class MonederoVirtual {
         listaClientes.remove(cliente);
         return "Cliente eliminado exitosamente.";
     }
-    public String crearMonedero(Cliente cliente, String nombreMonedero, double saldoInicial) {
+
+    public String crearMonedero(Cliente cliente, String nombreMonedero, double saldoInicial) throws ClienteNoEncontradoException, MontoInvalidoException {
         if (cliente == null) {
-            return "Debe especificar un cliente válido para asignar el monedero.";
+            throw new ClienteNoEncontradoException("Debe especificar un cliente válido para asignar el monedero.");
+        }
+        if (saldoInicial < 0) {
+            throw new MontoInvalidoException("El saldo inicial del monedero no puede ser negativo.");
         }
 
-        String codigo = "MON-" + (++contadorMonederos);
+        String codigo = generarCodigoMonedero();
         Monedero monedero = new Monedero(codigo, nombreMonedero, saldoInicial);
         cliente.agregarMonedero(monedero);
 
@@ -184,9 +191,9 @@ public class MonederoVirtual {
         }
     }
 
-    public String eliminarMonedero(Cliente cliente, String codigo) {
+    public String eliminarMonedero(Cliente cliente, String codigo) throws ClienteNoEncontradoException {
         if (cliente == null) {
-            return "Cliente no válido.";
+            throw new ClienteNoEncontradoException("Cliente no válido.");
         }
 
         Optional<Monedero> monederoEncontrado = buscarMonedero(codigo);
@@ -202,23 +209,54 @@ public class MonederoVirtual {
             return "El monedero a eliminar no fue encontrado.";
         }
     }
-    public Transaccion depositar(Cliente cliente, Monedero destino, double monto) {
-        String codigo = "Transaccion" + (++contadorTransacciones);
-        Deposito deposito = new Deposito(codigo, LocalDateTime.now(), monto, destino);
+
+    public Transaccion depositar(Cliente cliente, Monedero destino, double monto) throws ClienteNoEncontradoException, MontoInvalidoException {
+        if (cliente == null) {
+            throw new ClienteNoEncontradoException("El cliente de la transacción no existe.");
+        }
+        if (monto <= 0) {
+            throw new MontoInvalidoException("El monto a depositar debe ser mayor a cero.");
+        }
+
+        String codigo = generarCodigoTransaccion();
+        String fecha = LocalDateTime.now().toString(); // Se convierte a String
+        Deposito deposito = new Deposito(codigo, fecha, monto, destino);
         procesarTransaccion(cliente, deposito);
         return deposito;
     }
 
-    public Transaccion retirar(Cliente cliente, Monedero origen, double monto) {
-        String codigo = "Transaccion" + (++contadorTransacciones);
-        Retiro retiro = new Retiro(codigo, LocalDateTime.now(), monto, origen, cliente);
+    public Transaccion retirar(Cliente cliente, Monedero origen, double monto) throws ClienteNoEncontradoException, MontoInvalidoException, SaldoInsuficienteException {
+        if (cliente == null) {
+            throw new ClienteNoEncontradoException("El cliente de la transacción no existe.");
+        }
+        if (monto <= 0) {
+            throw new MontoInvalidoException("El monto a retirar debe ser mayor a cero.");
+        }
+        if (origen != null && origen.getSaldo() < monto) {
+            throw new SaldoInsuficienteException("El saldo del monedero es insuficiente para realizar el retiro.");
+        }
+
+        String codigo = generarCodigoTransaccion();
+        String fecha = LocalDateTime.now().toString(); // Se convierte a String
+        Retiro retiro = new Retiro(codigo, fecha, monto, origen);
         procesarTransaccion(cliente, retiro);
         return retiro;
     }
 
-    public Transaccion transferir(Cliente emisor, Monedero origen, Cliente receptor, Monedero destino, double monto) {
-        String codigo = "Transaccion" + (++contadorTransacciones);
-        Transferencia transferencia = new Transferencia(codigo, LocalDateTime.now(), monto, origen, destino, emisor);
+    public Transaccion transferir(Cliente emisor, Monedero origen, Cliente receptor, Monedero destino, double monto) throws ClienteNoEncontradoException, MontoInvalidoException, SaldoInsuficienteException {
+        if (emisor == null || receptor == null) {
+            throw new ClienteNoEncontradoException("Uno o ambos clientes involucrados en la transferencia no existen.");
+        }
+        if (monto <= 0) {
+            throw new MontoInvalidoException("El monto a transferir debe ser mayor a cero.");
+        }
+        if (origen != null && origen.getSaldo() < monto) {
+            throw new SaldoInsuficienteException("El saldo del monedero de origen es insuficiente para realizar la transferencia.");
+        }
+
+        String codigo = generarCodigoTransaccion();
+        String fecha = LocalDateTime.now().toString(); // Se convierte a String
+        Transferencia transferencia = new Transferencia(codigo, fecha, monto, origen, destino); // Sin pasar emisor
         procesarTransaccion(emisor, transferencia);
         return transferencia;
     }
@@ -235,9 +273,9 @@ public class MonederoVirtual {
         }
     }
 
-    public String revertirTransaccion(Cliente cliente, String codigoTransaccion) {
+    public String revertirTransaccion(Cliente cliente, String codigoTransaccion) throws ClienteNoEncontradoException {
         if (cliente == null) {
-            return "Cliente inválido.";
+            throw new ClienteNoEncontradoException("Cliente inválido.");
         }
 
         Optional<Transaccion> transaccionEncontrada = Optional.ofNullable(cliente.consultarHistorial())
@@ -253,20 +291,23 @@ public class MonederoVirtual {
         }
     }
 
-    // ==========================================
-    // RANGOS Y BENEFICIOS
-    // ==========================================
-
     public Optional<Rango> calcularRango(int puntos) {
         return listaRangos.stream()
                 .filter(rango -> rango.contienePuntos(puntos))
                 .findFirst();
     }
 
-    public String canjearBeneficio(Cliente cliente, Beneficio beneficio) {
-        if (cliente == null || beneficio == null) {
+    public String canjearBeneficio(Cliente cliente, Beneficio beneficio) throws ClienteNoEncontradoException, PuntosInsuficientesException {
+        if (cliente == null) {
+            throw new ClienteNoEncontradoException("No se encontró el cliente especificado para realizar el canje.");
+        }
+        if (beneficio != null && cliente.getPuntos() < beneficio.getPuntosRequeridos()) {
+            throw new PuntosInsuficientesException("El cliente no cuenta con suficientes puntos para canjear este beneficio.");
+        }
+        if (beneficio == null) {
             return "Datos incompletos para procesar el canje.";
         }
+
         beneficio.aplicar(cliente, LocalDateTime.now());
         return "Beneficio canjeado exitosamente.";
     }
@@ -276,17 +317,28 @@ public class MonederoVirtual {
     // ==========================================
 
     public TransaccionProgramada programarTransaccion(Cliente cliente, String tipo, Monedero origen, Monedero destino, double monto,
-                                                      LocalDateTime fecha, int frecuenciaMeses) {
-        String codigo = "PROG-" + (++contadorProgramadas);
+                                                      LocalDateTime fecha, int frecuenciaMeses) throws ClienteNoEncontradoException, MontoInvalidoException {
+        if (cliente == null) {
+            throw new ClienteNoEncontradoException("El cliente asignado a la transacción programada no existe.");
+        }
+        if (monto <= 0) {
+            throw new MontoInvalidoException("El monto de la transacción programada debe ser mayor a cero.");
+        }
+
+        String codigo = generarCodigoProgramada();
         TransaccionProgramada programada = new TransaccionProgramada(codigo, tipo, monto, fecha, frecuenciaMeses, origen, destino);
         listaProgramadas.add(programada);
         return programada;
     }
 
-    public String actualizarProgramada(TransaccionProgramada programada, double monto, LocalDateTime fecha, int frecuenciaMeses) {
+    public String actualizarProgramada(TransaccionProgramada programada, double monto, LocalDateTime fecha, int frecuenciaMeses) throws MontoInvalidoException {
         if (programada == null) {
             return "Transacción programada no válida.";
         }
+        if (monto <= 0) {
+            throw new MontoInvalidoException("El nuevo monto debe ser mayor a cero.");
+        }
+
         programada.modificar(monto, fecha, frecuenciaMeses);
         return "Transacción programada actualizada exitosamente.";
     }
@@ -310,6 +362,7 @@ public class MonederoVirtual {
     public String generarReporteClientesPorRango() {
         return "Reporte generado exitosamente.";
     }
+
     public String generarCodigoTransaccion() {
         contadorTransacciones++;
         return "T" + contadorTransacciones;
@@ -331,5 +384,4 @@ public class MonederoVirtual {
         contadorMonederos = monederos;
         contadorProgramadas = programadas;
     }
-
 }

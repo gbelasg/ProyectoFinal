@@ -9,7 +9,7 @@ public class Monedero {
     private double saldoMinimoAlerta;
     private ArrayList<Transaccion> listaTransacciones;
 
-    public Monedero(String codigo, String nombre, double saldo, double saldoMinimoAlerta, ArrayList<Transaccion> listaTransacciones) {
+    public Monedero(String codigo, String nombre, double saldo) {
         this.codigo = codigo;
         this.nombre = nombre;
         this.saldo = 0;

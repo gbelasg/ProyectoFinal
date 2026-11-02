@@ -2,6 +2,8 @@ package co.edu.uniquindio.poo.model;
 
 import co.edu.uniquindio.poo.util.Fecha;
 
+import java.time.LocalDateTime;
+
 // al llegar su fecha, genera una transaccion real
 // tipo Deposito: solo usa monederoDestino
 // tipo Transferencia: usa monederoOrigen y monederoDestino
@@ -49,7 +51,7 @@ public class TransaccionProgramada {
         fechaEjecucion = Fecha.sumarMeses(fechaEjecucion, frecuenciaMeses);
     }
 
-    public void modificar(double monto, String fechaEjecucion, int frecuenciaMeses) {
+    public void modificar(double monto, LocalDateTime fechaEjecucion, int frecuenciaMeses) {
         this.monto = monto;
         this.fechaEjecucion = fechaEjecucion;
         this.frecuenciaMeses = frecuenciaMeses;

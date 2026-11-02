@@ -1,7 +1,6 @@
 package co.edu.uniquindio.poo.model;
 
 import java.util.ArrayList;
-import java.util.Comparator;
 import java.util.stream.Collectors;
 
 public class Cliente {
@@ -139,8 +138,9 @@ public class Cliente {
                 .orElse(null);
     }
 
-    public void eliminarMonedero(Monedero monedero) {
+    public boolean eliminarMonedero(Monedero monedero) {
         listaMonederos.remove(monedero);
+        return false;
     }
 
     // Un cliente "tiene movimientos" si alguno de sus monederos tiene transacciones
