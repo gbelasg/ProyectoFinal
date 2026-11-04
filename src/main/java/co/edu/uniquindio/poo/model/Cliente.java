@@ -17,7 +17,7 @@ public class Cliente {
     private ArrayList<RegistroPuntos> historialPuntos;
     private ArrayList<Notificador> listaNotificadores;
 
-    public Cliente(String documento, String nombre, String correo, String telefono, int puntosAcumulados, double descuentoComision, String fechaFinRetirosSinCargo, ArrayList<String> mensajesRecibidos, Rango rango, ArrayList<Monedero> listaMonederos, ArrayList<RegistroPuntos> historialPuntos, ArrayList<Notificador> listaNotificadores) {
+    public Cliente(String documento, String nombre, String correo, String telefono) {
         this.documento = documento;
         this.nombre = nombre;
         this.correo = correo;

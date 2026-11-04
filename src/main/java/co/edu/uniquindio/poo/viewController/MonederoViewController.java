@@ -244,8 +244,7 @@ public class MonederoViewController {
         colProgFrecuencia.setCellValueFactory(c -> texto("" + c.getValue().getFrecuenciaMeses()));
         colProgActiva.setCellValueFactory(c -> texto(siNo(c.getValue().isActiva())));
     }
-
-    // ---------------- Clientes ----------------
+    -
 
     @FXML
     public void registrarCliente() {
@@ -325,7 +324,6 @@ public class MonederoViewController {
         refrescarDatosCliente();
     }
 
-    // ---------------- Monederos ----------------
 
     @FXML
     public void crearMonedero() {
@@ -378,7 +376,6 @@ public class MonederoViewController {
         }
     }
 
-    // ---------------- Operaciones ----------------
 
     @FXML
     public void depositar() {
@@ -578,7 +575,6 @@ public class MonederoViewController {
         txtReporte.setText(puntosController.generarReporteClientesPorRango());
     }
 
-    // ---------------- Notificaciones ----------------
 
     @FXML
     public void limpiarNotificaciones() {
@@ -589,7 +585,6 @@ public class MonederoViewController {
         }
     }
 
-    // ---------------- Refrescar la ventana ----------------
 
     // Se llama despues de cada cambio: guarda en los archivos y actualiza la ventana
     private void refrescarDatosCliente() {

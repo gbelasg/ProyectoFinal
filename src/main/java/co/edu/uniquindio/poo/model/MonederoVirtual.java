@@ -1,8 +1,8 @@
 package co.edu.uniquindio.poo.model;
 
-import java.time.LocalDateTime;
+
 import java.util.ArrayList;
-import java.util.Optional;
+
 
 public class MonederoVirtual {
     private String nombre;
