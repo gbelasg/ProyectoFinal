@@ -26,12 +26,12 @@ public class Cliente {
         this.telefono = telefono;
         this.puntosAcumulados =0 ;
         this.descuentoComision = 0;
-        this.fechaFinRetirosSinCargo = fechaFinRetirosSinCargo;
-        this.mensajesRecibidos = mensajesRecibidos;
+        this.fechaFinRetirosSinCargo = "";
+        this.mensajesRecibidos = new ArrayList<>();
         this.rango = rango;
-        this.listaMonederos = listaMonederos;
-        this.historialPuntos = historialPuntos;
-        this.listaNotificadores = listaNotificadores;
+        this.listaMonederos = new ArrayList<>();
+        this.historialPuntos = new ArrayList<>();
+        this.listaNotificadores = new ArrayList<>();
     }
 
     public String getDocumento() {

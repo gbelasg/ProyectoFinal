@@ -14,7 +14,7 @@ public class Monedero {
         this.nombre = nombre;
         this.saldo = 0;
         this.saldoMinimoAlerta = saldoMinimoAlerta;
-        this.listaTransacciones = listaTransacciones;
+        this.listaTransacciones = new ArrayList<>();
     }
 
     public String getCodigo() {

@@ -15,6 +15,29 @@ public class MonederoVirtual {
     private ArrayList<Beneficio> catalogoBeneficios;
     private ArrayList<TransaccionProgramada> listaProgramadas;
 
+    public MonederoVirtual(String nombre) {
+        this.nombre = nombre;
+        this.contadorTransacciones = 0;
+        this.contadorMonederos = 0;
+        this.contadorProgramadas = 0;
+        this.listaClientes = new ArrayList<>();
+        this.listaRangos = new ArrayList<>();
+        this.catalogoBeneficios = new ArrayList<>();
+        this.listaProgramadas = new ArrayList<>();
+
+
+
+
+        listaRangos.add(new Rango("Bronce", 0, 500));
+        listaRangos.add(new Rango("Plata", 501, 1000));
+        listaRangos.add(new Rango("Oro", 1001, 5000));
+        listaRangos.add(new Rango("Platino", 5001, Integer.MAX_VALUE));
+
+        catalogoBeneficios.add(new DescuentoComision("10% menos de comision en transferencias", 100, 0.10));
+        catalogoBeneficios.add(new RetirosSinCargo("Un mes sin cargos por retiros", 500, 1));
+        catalogoBeneficios.add(new BonoSaldo("Bono de 50 en el monedero principal", 1000, 50));
+    }
+
     public String getNombre() {
         return nombre;
     }
@@ -79,28 +102,6 @@ public class MonederoVirtual {
         this.listaProgramadas = listaProgramadas;
     }
 
-    public MonederoVirtual(String nombre) {
-        this.nombre = nombre;
-        this.contadorTransacciones = 0;
-        this.contadorMonederos = 0;
-        this.contadorProgramadas = 0;
-        this.listaClientes = new ArrayList<>();
-        this.listaRangos = new ArrayList<>();
-        this.catalogoBeneficios = new ArrayList<>();
-        this.listaProgramadas = new ArrayList<>();
-
-
-
-
-        listaRangos.add(new Rango("Bronce", 0, 500));
-        listaRangos.add(new Rango("Plata", 501, 1000));
-        listaRangos.add(new Rango("Oro", 1001, 5000));
-        listaRangos.add(new Rango("Platino", 5001, Integer.MAX_VALUE));
-
-        catalogoBeneficios.add(new DescuentoComision("10% menos de comision en transferencias", 100, 0.10));
-        catalogoBeneficios.add(new RetirosSinCargo("Un mes sin cargos por retiros", 500, 1));
-        catalogoBeneficios.add(new BonoSaldo("Bono de 50 en el monedero principal", 1000, 50));
-    }
 
 
 
