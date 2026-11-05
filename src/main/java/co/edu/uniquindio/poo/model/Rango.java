@@ -35,4 +35,9 @@ public class Rango {
     public void setBonoPuntos(double bonoPuntos) {
         this.bonoPuntos = bonoPuntos;
     }
+
+    @Override
+    public String toString() {
+        return nombre;
+    }
 }

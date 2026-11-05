@@ -1,5 +1,7 @@
 package co.edu.uniquindio.poo.model;
 
+import co.edu.uniquindio.poo.exceptions.SaldoInsuficienteException;
+
 public class Transferencia extends Transaccion{
     public static final double PORCENTAJE_COMISION = 0.01;
     private Monedero monederoOrigen;

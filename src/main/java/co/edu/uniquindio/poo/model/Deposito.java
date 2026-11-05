@@ -1,5 +1,7 @@
 package co.edu.uniquindio.poo.model;
 
+import co.edu.uniquindio.poo.exceptions.SaldoInsuficienteException;
+
 public class Deposito extends Transaccion{
     private Monedero monederoDestino;
 

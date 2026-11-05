@@ -92,10 +92,10 @@ public class MonederoVirtual {
 
 
 
-        listaRangos.add(new Rango("Bronce", 0, 500, 0.0, 0.0));
-        listaRangos.add(new Rango("Plata", 501, 1000, 0.05, 0.10));
-        listaRangos.add(new Rango("Oro", 1001, 5000, 0.10, 0.20));
-        listaRangos.add(new Rango("Platino", 5001, Integer.MAX_VALUE, 0.20, 0.30));
+        listaRangos.add(new Rango("Bronce", 0, 500));
+        listaRangos.add(new Rango("Plata", 501, 1000));
+        listaRangos.add(new Rango("Oro", 1001, 5000));
+        listaRangos.add(new Rango("Platino", 5001, Integer.MAX_VALUE));
 
         catalogoBeneficios.add(new DescuentoComision("10% menos de comision en transferencias", 100, 0.10));
         catalogoBeneficios.add(new RetirosSinCargo("Un mes sin cargos por retiros", 500, 1));

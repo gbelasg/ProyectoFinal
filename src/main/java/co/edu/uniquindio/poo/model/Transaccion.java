@@ -1,5 +1,7 @@
 package co.edu.uniquindio.poo.model;
 
+import co.edu.uniquindio.poo.exceptions.SaldoInsuficienteException;
+
 public abstract class Transaccion {
     private String codigo;
     private String fecha;

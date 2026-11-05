@@ -235,7 +235,7 @@ public class MonederoViewController {
 
         colPuntosFecha.setCellValueFactory(c -> texto(c.getValue().getFecha()));
         colPuntosCantidad.setCellValueFactory(c -> texto("" + c.getValue().getPuntos()));
-        colPuntosDescripcion.setCellValueFactory(c -> texto(c.getValue().getDescripcion()));
+        colPuntosDescripcion.setCellValueFactory(c -> texto(c.getValue().getConcepto()));
 
         colProgCodigo.setCellValueFactory(c -> texto(c.getValue().getCodigo()));
         colProgTipo.setCellValueFactory(c -> texto(c.getValue().getTipo()));
@@ -244,7 +244,7 @@ public class MonederoViewController {
         colProgFrecuencia.setCellValueFactory(c -> texto("" + c.getValue().getFrecuenciaMeses()));
         colProgActiva.setCellValueFactory(c -> texto(siNo(c.getValue().isActiva())));
     }
-    -
+
 
     @FXML
     public void registrarCliente() {

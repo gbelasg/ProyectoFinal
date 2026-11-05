@@ -10,6 +10,7 @@ import co.edu.uniquindio.poo.model.TransaccionProgramada;
 import co.edu.uniquindio.poo.util.Fecha;
 import co.edu.uniquindio.poo.util.Formato;
 
+import java.time.LocalDateTime;
 import java.util.ArrayList;
 
 
@@ -60,7 +61,7 @@ public class ProgramadaController {
         validarProgramadaDelCliente(cliente, programada);
         transaccionController.validarMonto(monto);
         validarFechaYFrecuencia(fecha, frecuenciaMeses);
-        programada.modificar(monto, fecha, frecuenciaMeses);
+        programada.modificar(monto, LocalDateTime.parse(fecha), frecuenciaMeses);
         cliente.notificar("Modificaste la transaccion programada " + programada.getCodigo() + ": "
                 + Formato.dinero(monto) + " el " + fecha + ", cada " + frecuenciaMeses + " mes(es).");
     }

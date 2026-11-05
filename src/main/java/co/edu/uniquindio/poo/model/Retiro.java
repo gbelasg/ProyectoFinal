@@ -1,5 +1,7 @@
 package co.edu.uniquindio.poo.model;
 
+import co.edu.uniquindio.poo.exceptions.SaldoInsuficienteException;
+
 public class Retiro extends Transaccion{
     public static final double CARGO_FIJO = 2.0;
     private Monedero monederoOrigen;

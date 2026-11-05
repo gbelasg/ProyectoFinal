@@ -173,7 +173,7 @@ public class AnalisisController {
     private String porcentaje(double parte, double total) {
         String texto = "";
         if (total > 0) {
-            texto = String.format (parte * 100 / total);
+            texto = String.format (String.valueOf(parte * 100 / total));
         }
         return texto;
     }
