@@ -51,7 +51,7 @@ public class TransaccionProgramada {
         fechaEjecucion = Fecha.sumarMeses(fechaEjecucion, frecuenciaMeses);
     }
 
-    public void modificar(double monto, LocalDateTime fechaEjecucion, int frecuenciaMeses) {
+    public void modificar(double monto, String fechaEjecucion, int frecuenciaMeses) {
         this.monto = monto;
         this.fechaEjecucion = fechaEjecucion;
         this.frecuenciaMeses = frecuenciaMeses;

@@ -165,7 +165,7 @@ public class MonederoVirtualControllerTest {
 
         programadas.procesarProgramadas(hoy);
 
-        assertFalse(!futura.isPendiente());
+        assertFalse(!futura.estaPendiente(hoy));
         assertEquals(0, ahorros.getSaldo(), 0.001);
     }
 
