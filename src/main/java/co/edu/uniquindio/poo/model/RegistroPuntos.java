@@ -4,12 +4,14 @@ public class RegistroPuntos {
 
     private String fecha;
     private int puntos;
-    private String concepto;
+    private String descripcion;
+     private Transaccion transaccion;
 
-    public RegistroPuntos(String fecha, int puntos, String concepto) {
+    public RegistroPuntos(String fecha, int puntos, String descripcion, Transaccion transaccion) {
         this.fecha = fecha;
         this.puntos = puntos;
-        this.concepto = concepto;
+        this.descripcion = descripcion;
+        this.transaccion= transaccion;
     }
 
     public String getFecha() {
@@ -28,11 +30,24 @@ public class RegistroPuntos {
         this.puntos = puntos;
     }
 
-    public String getConcepto() {
-        return concepto;
+    public String getDescripcion() {
+        return descripcion;
     }
 
-    public void setConcepto(String concepto) {
-        this.concepto = concepto;
+    public void setDescripcion(String descripcion) {
+        this.descripcion =descripcion;
     }
+
+    public Transaccion getTransaccion() {
+        return transaccion;
+    }
+
+    public void setTransaccion(Transaccion transaccion) {
+        this.transaccion = transaccion;
+    }
+    public boolean estaVigente() {
+        return transaccion == null || !transaccion.isRevertida();
+    }
+
+
 }

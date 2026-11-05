@@ -235,7 +235,7 @@ public class MonederoViewController {
 
         colPuntosFecha.setCellValueFactory(c -> texto(c.getValue().getFecha()));
         colPuntosCantidad.setCellValueFactory(c -> texto("" + c.getValue().getPuntos()));
-        colPuntosDescripcion.setCellValueFactory(c -> texto(c.getValue().getConcepto()));
+        colPuntosDescripcion.setCellValueFactory(c -> texto(String.valueOf(c.getValue().getPuntos())));
 
         colProgCodigo.setCellValueFactory(c -> texto(c.getValue().getCodigo()));
         colProgTipo.setCellValueFactory(c -> texto(c.getValue().getTipo()));

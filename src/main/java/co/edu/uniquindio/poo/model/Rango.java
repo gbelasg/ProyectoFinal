@@ -3,37 +3,41 @@ package co.edu.uniquindio.poo.model;
 public class Rango {
 
     private String nombre;
-    private double descuento;
+    private int puntosMinimos;
+    private int puntosMaximos;
+    private double descuentoTransferencia;
     private double bonoPuntos;
 
-    public Rango(String nombre, double descuento, double bonoPuntos) {
+    public Rango(String nombre, int puntosMinimos, int puntosMaximos) {
         this.nombre = nombre;
-        this.descuento = descuento;
+        this.puntosMinimos = puntosMinimos;
+        this.puntosMaximos = puntosMaximos;
+        this.descuentoTransferencia = descuentoTransferencia;
         this.bonoPuntos = bonoPuntos;
+    }
+
+    public boolean contienePuntos(int puntos) {
+        return puntos >= puntosMinimos && puntos <= puntosMaximos;
     }
 
     public String getNombre() {
         return nombre;
     }
 
-    public void setNombre(String nombre) {
-        this.nombre = nombre;
+    public int getPuntosMinimos() {
+        return puntosMinimos;
     }
 
-    public double getDescuento() {
-        return descuento;
+    public int getPuntosMaximos() {
+        return puntosMaximos;
     }
 
-    public void setDescuento(double descuento) {
-        this.descuento = descuento;
+    public double getDescuentoTransferencia() {
+        return descuentoTransferencia;
     }
 
     public double getBonoPuntos() {
         return bonoPuntos;
-    }
-
-    public void setBonoPuntos(double bonoPuntos) {
-        this.bonoPuntos = bonoPuntos;
     }
 
     @Override

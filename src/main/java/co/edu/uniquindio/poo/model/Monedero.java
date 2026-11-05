@@ -77,14 +77,13 @@ public class Monedero {
         return saldo < saldoMinimoAlerta;
     }
 
+    public void restaurarSaldo(double saldo) {
+        this.saldo = saldo;
+    }
+
+
     @Override
     public String toString() {
-        return "Monedero{" +
-                "codigo='" + codigo + '\'' +
-                ", nombre='" + nombre + '\'' +
-                ", saldo=" + saldo +
-                ", saldoMinimoAlerta=" + saldoMinimoAlerta +
-                ", listaTransacciones=" + listaTransacciones +
-                '}';
+        return nombre + " (" + codigo + ")";
     }
 }

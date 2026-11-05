@@ -100,5 +100,8 @@ public abstract class Transaccion {
         this.atipica = atipica;
         this.revertida = revertida;
     }
+    public int getNumero() {
+        return Integer.parseInt(codigo.substring(1));
+    }
 
 }

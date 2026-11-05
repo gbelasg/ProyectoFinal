@@ -61,7 +61,7 @@ public class ProgramadaController {
         validarProgramadaDelCliente(cliente, programada);
         transaccionController.validarMonto(monto);
         validarFechaYFrecuencia(fecha, frecuenciaMeses);
-        programada.modificar(monto, LocalDateTime.parse(fecha), frecuenciaMeses);
+        programada.modificar(monto, String.valueOf(LocalDateTime.parse(fecha)), frecuenciaMeses);
         cliente.notificar("Modificaste la transaccion programada " + programada.getCodigo() + ": "
                 + Formato.dinero(monto) + " el " + fecha + ", cada " + frecuenciaMeses + " mes(es).");
     }

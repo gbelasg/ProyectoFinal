@@ -12,6 +12,23 @@ public class Transferencia extends Transaccion{
         this.monederoOrigen = monederoOrigen;
         this.monederoDestino = monederoDestino;
     }
+
+    public Monedero getMonederoOrigen() {
+        return monederoOrigen;
+    }
+
+    public void setMonederoOrigen(Monedero monederoOrigen) {
+        this.monederoOrigen = monederoOrigen;
+    }
+
+    public Monedero getMonederoDestino() {
+        return monederoDestino;
+    }
+
+    public void setMonederoDestino(Monedero monederoDestino) {
+        this.monederoDestino = monederoDestino;
+    }
+
     @Override
     public void ejecutar() throws SaldoInsuficienteException {
         monederoOrigen.disminuirSaldo(getMonto() + getComision());

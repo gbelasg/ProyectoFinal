@@ -3,11 +3,11 @@ package co.edu.uniquindio.poo.model;
 public abstract class Beneficio {
 
     private String nombre;
-    private int puntos;
+    private int costoPuntos;
 
-    public Beneficio(String nombre, int puntos) {
+    public Beneficio(String nombre, int costoPuntos) {
         this.nombre = nombre;
-        this.puntos = puntos;
+        this.costoPuntos = costoPuntos;
     }
 
     public String getNombre() {
@@ -18,12 +18,12 @@ public abstract class Beneficio {
         this.nombre = nombre;
     }
 
-    public int getPuntos() {
-        return puntos;
+    public int getCostoPuntos() {
+        return costoPuntos;
     }
 
-    public void setPuntos(int puntos) {
-        this.puntos = puntos;
+    public void setCostoPuntos(int costoPuntos) {
+        this.costoPuntos = costoPuntos;
     }
 
     public abstract void aplicar(Cliente cliente, String fechaActual);

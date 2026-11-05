@@ -1,5 +1,7 @@
 package co.edu.uniquindio.poo.model;
 
+import co.edu.uniquindio.poo.util.Fecha;
+
 import java.util.ArrayList;
 import java.util.stream.Collectors;
 
@@ -169,7 +171,7 @@ public class Cliente {
     public ArrayList<Transaccion> consultarHistorial() {
         // Extrae la lista de transacciones de cada monedero y las combina en una sola lista continua, agrupando las transacciones combinadas
         return listaMonederos.stream()
-                .flatMap(monedero -> monedero.getHistorialTransacciones().stream())
+                .flatMap(monedero -> monedero.getListaTransacciones().stream())
                 .collect(Collectors.toCollection(ArrayList::new));
     }
     public void agregarRegistroPuntos(RegistroPuntos registro) {

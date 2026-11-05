@@ -11,6 +11,14 @@ public class Retiro extends Transaccion{
         this.monederoOrigen = monederoOrigen;
     }
 
+    public Monedero getMonederoOrigen() {
+        return monederoOrigen;
+    }
+
+    public void setMonederoOrigen(Monedero monederoOrigen) {
+        this.monederoOrigen = monederoOrigen;
+    }
+
     @Override
     public void ejecutar() throws SaldoInsuficienteException {
         monederoOrigen.disminuirSaldo(getMonto() + getComision());
